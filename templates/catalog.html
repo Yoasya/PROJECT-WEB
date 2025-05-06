@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Каталог{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h1 class="mb-4">Каталог товаров</h1>
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="btn-group">
+                <a href="{{ url_for('catalog', category='all') }}" 
+                   class="btn btn-outline-primary {{ 'active' if category == 'all' }}">
+                    Все товары
+                </a>
+                <a href="{{ url_for('catalog', category='tshirt') }}" 
+                   class="btn btn-outline-primary {{ 'active' if category == 'tshirt' }}">
+                    Футболки
+                </a>
+                <a href="{{ url_for('catalog', category='hoodie') }}" 
+                   class="btn btn-outline-primary {{ 'active' if category == 'hoodie' }}">
+                    Толстовки
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    {% for product in products.items %}
+    <div class="col-md-3 mb-4">
+        <div class="card h-100">
+            <img src="{{ url_for('static', filename='uploads/' + product.image) }}" 
+                 class="card-img-top" alt="{{ product.name }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text">{{ product.description[:100] }}...</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="h5 mb-0">{{ product.price }} ₽</span>
+                    <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="POST" class="d-inline">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-cart-plus"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<nav aria-label="Page navigation" class="mt-4">
+    <ul class="pagination justify-content-center">
+        {% if products.has_prev %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('catalog', page=products.prev_num, category=category) }}">Назад</a>
+        </li>
+        {% endif %}
+        
+        {% for page_num in products.iter_pages() %}
+            {% if page_num %}
+                <li class="page-item {{ 'active' if page_num == products.page }}">
+                    <a class="page-link" href="{{ url_for('catalog', page=page_num, category=category) }}">
+                        {{ page_num }}
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
+                </li>
+            {% endif %}
+        {% endfor %}
+        
+        {% if products.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('catalog', page=products.next_num, category=category) }}">Вперед</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endblock %} 

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Оформление заказа{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title mb-4">Оформление заказа</h2>
+                
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Ваше имя</label>
+                        <input type="text" class="form-control" id="name" name="name" 
+                               value="{{ current_user.username }}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" 
+                               value="{{ current_user.email }}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Адрес доставки</label>
+                        <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5>Итого к оплате: {{ total }} ₽</h5>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100">
+                        Подтвердить заказ
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
