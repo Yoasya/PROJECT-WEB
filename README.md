@@ -26,7 +26,7 @@ SWAGcraft - это современный интернет-магазин, сп�
 
 1. Клонируйте репозиторий:
 ```bash
-git clone https://github.com/yoasya/swagcraft.git
+git clone https://github.com/yoasya/PROJECT-WEB.git
 cd swagcraft
 ```
 
